@@ -1,0 +1,4 @@
+package theme
+
+class ScaffoldCompat {
+}

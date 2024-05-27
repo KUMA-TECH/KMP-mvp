@@ -1,0 +1,39 @@
+package component
+
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.contentColorFor
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import model.ClickableIcon
+
+@Composable
+fun <T : ClickableIcon> SimpleAppbar(
+    title: String,
+    menus: List<T>? = null,
+    navigateBack: Boolean = true,
+) {
+    TopAppBar(
+        title = { Text(title) },
+        modifier = Modifier,
+        navigationIcon = {
+            if (navigateBack) Icons.AutoMirrored.Default.ArrowBack
+            else Icons.Default.Home
+        },
+        actions = {
+            menus?.map {
+                IconButton(onClick = it.onClick) {
+                    Icon(it.icon, it.contentDescriptor)
+                }
+            }
+        },
+        backgroundColor = MaterialTheme.colorScheme.surface,
+        contentColor = contentColorFor(MaterialTheme.colorScheme.surface),
+    )
+}

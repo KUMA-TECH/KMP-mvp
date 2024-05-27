@@ -1,15 +1,15 @@
-package theme
+package component
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHost
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,37 +20,33 @@ import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.skiko.SystemTheme
-import org.jetbrains.skiko.currentSystemTheme
+import model.ClickableIcon
+import model.MenuModel
+import theme.AppTheme
 
-val isLightMode: () -> Boolean = { currentSystemTheme == SystemTheme.LIGHT }
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MaterialThemeCompat(
+fun AppLauncher(
     usingMaterial3: Boolean = false,
-    colorScheme: ColorScheme = MaterialTheme.colorScheme,
-    shapes: Shapes = MaterialTheme.shapes,
-    typography: Typography = MaterialTheme.typography,
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    fab: ClickableIcon?,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     if (usingMaterial3)
-        MaterialTheme(colorScheme, shapes, typography) {
+        AppTheme(darkTheme, true) {
             Scaffold(
                 modifier = Modifier.padding(0.dp),
-                topBar = {
-                    TopAppBar(
-                        title = { Text("hello") },
-                        modifier = Modifier,
-                        navigationIcon = {},
-                        actions = {},
-                        backgroundColor = MaterialTheme.colorScheme.surface,
-                        contentColor = contentColorFor(MaterialTheme.colorScheme.surface),
-                    )
-                },
+                topBar = { SimpleAppbar<MenuModel>("Coffee tracker", navigateBack = false) },
                 bottomBar = {},
-                snackbarHost = {},
-                floatingActionButton = {},
+                snackbarHost = { },
+                floatingActionButton = {
+                    fab?.let {
+                        FloatingActionButton(
+                            onClick = it.onClick,
+                            backgroundColor = MaterialTheme.colorScheme.secondary,
+                            contentColor = contentColorFor(MaterialTheme.colorScheme.secondary),
+                        ) { Icon(it.icon, it.contentDescriptor) }
+                    }
+                },
                 floatingActionButtonPosition = FabPosition.End,
                 containerColor = MaterialTheme.colorScheme.background,
                 contentColor = contentColorFor(MaterialTheme.colorScheme.background),
@@ -59,7 +55,12 @@ fun MaterialThemeCompat(
                 content(it)
             }
         }
-    else Material2Theme(colorScheme, shapes, typography, content)
+    else Material2Theme(
+        MaterialTheme.colorScheme,
+        MaterialTheme.shapes,
+        MaterialTheme.typography,
+        content
+    )
 }
 
 @Composable
@@ -83,7 +84,7 @@ fun Material2Theme(
             onBackground = colorScheme.onBackground,
             onSurface = colorScheme.onSurface,
             onError = colorScheme.onError,
-            isLight = isLightMode()
+            isLight = !isSystemInDarkTheme()
         ),
         androidx.compose.material.MaterialTheme.typography.copy(
             h1 = typography.displayLarge,

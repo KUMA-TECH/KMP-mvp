@@ -6,9 +6,12 @@ import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+//    alias(libs.plugins.ksp)
 }
 
 kotlin {
+    task("testClasses")
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser {
@@ -22,23 +25,25 @@ kotlin {
             }
         }
     }
-    
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    
+
     jvm()
-    
+
     sourceSets {
-        commonMain.dependencies {
-            // put your Multiplatform dependencies here
+        val commonMain by getting {
+//            kotlin.srcDir("build/generated/ksp/commonMain/kotlin")
+            dependencies {
+            }
         }
     }
 }
@@ -54,3 +59,31 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
 }
+
+//dependencies {
+//    add("kspCommonMainMetadata", project(":lib-processor"))
+////    add("kspJvm", projects.libProcessor)
+////    add("kspJvmTest", projects.libProcessor)
+////    add("kspJs", projects.libProcessor)
+////    add("kspJsTest", projects.libProcessor)
+////    add("kspAndroidNativeX64", projects.libProcessor)
+////    add("kspAndroidNativeX64Test", projects.libProcessor)
+////    add("kspAndroidNativeArm64", projects.libProcessor)
+////    add("kspAndroidNativeArm64Test", projects.libProcessor)
+////    add("kspLinuxX64", projects.libProcessor)
+////    add("kspLinuxX64Test", projects.libProcessor)
+////    add("kspMingwX64", projects.libProcessor)
+////    add("kspMingwX64Test", projects.libProcessor)
+////    ksp(projects.libProcessor)
+//}
+//kotlin.sourceSets.commonMain {
+//    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+//}
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+//    if (name != "kspCommonMainKotlinMetadata") {
+//        dependsOn("kspCommonMainKotlinMetadata")
+//    }
+//}
+//ksp {
+//    arg("measureDuration", "true")
+//}

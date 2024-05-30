@@ -28,15 +28,17 @@ import theme.AppTheme
 fun AppLauncher(
     usingMaterial3: Boolean = false,
     darkTheme: Boolean = isSystemInDarkTheme(),
+    title: String,
     fab: ClickableIcon?,
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
     if (usingMaterial3)
         AppTheme(darkTheme, true) {
             Scaffold(
                 modifier = Modifier.padding(0.dp),
-                topBar = { SimpleAppbar<MenuModel>("Coffee tracker", navigateBack = false) },
-                bottomBar = {},
+                topBar = { SimpleAppbar<MenuModel>(title, navigateBack = false) },
+                bottomBar = bottomBar,
                 snackbarHost = { },
                 floatingActionButton = {
                     fab?.let {

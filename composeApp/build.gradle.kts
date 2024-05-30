@@ -9,9 +9,12 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+//    alias(libs.plugins.ksp)
 }
 
 kotlin {
+    task("testClasses")
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "composeApp"
@@ -28,16 +31,13 @@ kotlin {
         }
         binaries.executable()
     }
-    
+    jvm("desktop")
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
-    jvm("desktop")
-    
     listOf(
         iosX64(),
         iosArm64(),
@@ -48,30 +48,41 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         val desktopMain by getting
-        
+
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.androidx.material3.android)
         }
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.kotlinx.datetime)
+        val commonMain by getting {
+//            kotlin.srcDir("build/generated/ksp/commonMain/kotlin")
+            dependencies {
+                // compose
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.coroutines.core)
+                // viewmodel
+                implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(libs.androidx.lifecycle.viewmodel.compose)
+                // navigation
+                implementation(libs.androidx.navigation.compose)
+                // others
+                implementation(libs.kotlinx.datetime)
 
-            implementation(projects.shared)
+                // local projects
+                implementation(projects.shared)
+            }
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.coroutines.core)
             implementation(libs.coroutines.swing)
         }
     }
@@ -125,3 +136,32 @@ compose.desktop {
         }
     }
 }
+dependencies {
+//    add("kspCommonMainMetadata", projects.libProcessor)
+//    implementation(projects.libProcessor)
+//    ksp(projects.libProcessor)
+//    add("kspJvm", projects.libProcessor)
+//    add("kspJvmTest", projects.libProcessor)
+//    add("kspJs", projects.libProcessor)
+//    add("kspJsTest", projects.libProcessor)
+//    add("kspAndroidNativeX64", projects.libProcessor)
+//    add("kspAndroidNativeX64Test", projects.libProcessor)
+//    add("kspAndroidNativeArm64", projects.libProcessor)
+//    add("kspAndroidNativeArm64Test", projects.libProcessor)
+//    add("kspLinuxX64", projects.libProcessor)
+//    add("kspLinuxX64Test", projects.libProcessor)
+//    add("kspMingwX64", projects.libProcessor)
+//    add("kspMingwX64Test", projects.libProcessor)
+//    ksp(projects.libProcessor)
+}
+//kotlin.sourceSets.commonMain {
+//    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+//}
+//tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
+//    if (name != "kspCommonMainKotlinMetadata") {
+//        dependsOn("kspCommonMainKotlinMetadata")
+//    }
+//}
+//ksp {
+//    arg("measureDuration", "true")
+//}

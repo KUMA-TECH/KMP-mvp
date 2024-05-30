@@ -5,7 +5,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.contentColorFor
@@ -13,6 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import model.ClickableIcon
 
+/**
+ * 通用 appbar
+ */
 @Composable
 fun <T : ClickableIcon> SimpleAppbar(
     title: String,
@@ -23,8 +25,13 @@ fun <T : ClickableIcon> SimpleAppbar(
         title = { Text(title) },
         modifier = Modifier,
         navigationIcon = {
-            if (navigateBack) Icons.AutoMirrored.Default.ArrowBack
-            else Icons.Default.Home
+            if (navigateBack) {
+                IconButton({
+                    println("TODO go back")
+                }) {
+                    Icon(Icons.AutoMirrored.Default.ArrowBack, "Go back")
+                }
+            }
         },
         actions = {
             menus?.map {

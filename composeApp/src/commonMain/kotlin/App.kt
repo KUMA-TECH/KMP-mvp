@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -60,8 +59,11 @@ fun App(
                         label = { Text(item.label) },
                         selected = selectedItem == index,
                         onClick = {
+                            if (navigator.currentDestination?.route == item.name) {
+                                return@NavigationBarItem
+                            }
                             selectedItem = index
-                            navigator.navigate(item.label)
+                            navigator.navigate(item.name)
                         }
                     )
                 }
@@ -71,7 +73,7 @@ fun App(
         // register all screens to NavHost
         NavHost(
             navController = navigator,
-            startDestination = "Home",
+            startDestination = NavigationScreens.Home.name,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())

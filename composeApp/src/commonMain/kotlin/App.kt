@@ -19,7 +19,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import component.AppLauncher
 import config.AppRouter
@@ -29,17 +28,13 @@ import kmp_mvp.composeapp.generated.resources.Res
 import kmp_mvp.composeapp.generated.resources.app_name
 import model.FabModel
 import org.jetbrains.compose.resources.stringResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 
 @Composable
-@Preview
 fun App(
     appVM: AppViewModel = viewModel { AppViewModel() },
     navigator: NavHostController = rememberNavController()
 ) {
-    // Get current back stack entry
-    val backStackEntry by navigator.currentBackStackEntryAsState()
     navigator.addOnDestinationChangedListener(AppRouter.callback)
 
     var selectedItem by remember { mutableIntStateOf(0) }

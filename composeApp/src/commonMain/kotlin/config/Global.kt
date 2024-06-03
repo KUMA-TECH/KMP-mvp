@@ -10,7 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 object Global {
 
     const val USING_MATERIAL3 = true
+    const val API_URL = ""
 
+    const val DATABASE_SCHEMA = "app.db"
+    const val DATA_STORE_SCHEMA = "app.preferences_pb"
 }
 
 /**

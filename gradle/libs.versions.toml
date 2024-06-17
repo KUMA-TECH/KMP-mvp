@@ -25,9 +25,9 @@ coroutines = "1.8.1"
 material3Android = "1.2.1"
 
 androidx-paging = "3.3.0"
-androidx-room = "2.7.0-alpha03"
+androidx-room = "2.7.0-alpha04"
 atomicfu = "0.23.2"
-compose = "1.6.7"
+compose = "1.6.8"
 compose-compiler = "1.5.11"
 dataStoreVersion = "1.1.1"
 ktorVersion = "2.3.11"
@@ -37,6 +37,7 @@ sqlite = "2.5.0-SNAPSHOT"
 
 
 [libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "androidx-activityCompose" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastoreCore" }
 coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }

@@ -37,6 +37,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.material3.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.androidx.activity.ktx)
 //            implementation(libs.androidx.room.paging)
         }
         iosMain.dependencies {

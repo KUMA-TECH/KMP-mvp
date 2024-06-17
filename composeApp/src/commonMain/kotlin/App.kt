@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import component.AppLauncher
+import theme.component.AppLauncher
 import config.AppRouter
 import config.Global
 import config.NavigationScreens

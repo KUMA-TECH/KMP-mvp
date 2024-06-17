@@ -1,9 +1,9 @@
-package store
+package data.store
 
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.okio.OkioSerializer
 import androidx.datastore.core.okio.OkioStorage
-import di.json
+import data.api.json
 import kotlinx.coroutines.flow.Flow
 import model.User
 import okio.BufferedSink
@@ -16,9 +16,7 @@ import okio.use
 /**
  * 自定义数据存储
  */
-class UserDataStore(
-    private val produceFilePath: () -> String,
-) {
+class UserDataStore(private val produceFilePath: () -> String) {
     private val db = DataStoreFactory.create(
         storage = OkioStorage(
             fileSystem = FileSystem.SYSTEM,
@@ -38,7 +36,7 @@ class UserDataStore(
 }
 
 internal object UserJsonSerializer : OkioSerializer<User> {
-    override val defaultValue: User = User(-1, "", "")
+    override val defaultValue: User = User.empty()
     override suspend fun readFrom(source: BufferedSource): User {
         return json.decodeFromString<User>(source.readUtf8())
     }

@@ -1,4 +1,4 @@
-package component
+package theme.component
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues

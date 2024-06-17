@@ -1,4 +1,4 @@
-package store
+package data.store
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -23,7 +23,7 @@ object AppStore {
      * Gets the singleton DataStore instance, creating it if necessary.
      */
     fun get(): DataStore<Preferences> = synchronized(lock) {
-        if (::dataStore.isInitialized) {
+        if (AppStore::dataStore.isInitialized) {
             dataStore
         } else {
             PreferenceDataStoreFactory.createWithPath(produceFile = { producePath().toPath() })

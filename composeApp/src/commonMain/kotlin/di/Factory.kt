@@ -2,30 +2,22 @@ package di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import api.AppApi
-import api.AppNetworkApi
 import config.Global
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.http.ContentType
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
+import data.api.UserNetworkApi
+import data.api.KtorFactory
+import data.api.UserApi
+import data.store.AppStore
+import data.store.UserDataStore
 import resolveSystemFilePath
-import store.AppStore
-import store.UserDataStore
 
 class Factory {
     //    fun createRoomDatabase(): AppDatabase
     /**
      * create http api request
      */
-    fun createApi(): AppApi {
-        return AppNetworkApi(
-            client = HttpClient {
-                install(ContentNegotiation) {
-                    json(json, contentType = ContentType.Any)
-                }
-            },
+    fun createApi(): UserApi {
+        return UserNetworkApi(
+            client = KtorFactory.create(),
             apiUrl = Global.API_URL,
         )
     }
@@ -45,5 +37,3 @@ class Factory {
     }
 
 }
-
-val json = Json { ignoreUnknownKeys = true }

@@ -10,7 +10,7 @@ object AppContainer {
     val dataRepository: DataRepository by lazy {
         DataRepository(
             api = factory.createApi(),
-            cartDataStore = factory.createUserDataStore(),
+            userStore = factory.createUserDataStore(),
             scope = CoroutineScope(Dispatchers.Default + SupervisorJob()),
         )
     }

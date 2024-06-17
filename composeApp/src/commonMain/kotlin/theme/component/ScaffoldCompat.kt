@@ -1,4 +1,4 @@
-package component
+package theme.component
 
 class ScaffoldCompat {
 }

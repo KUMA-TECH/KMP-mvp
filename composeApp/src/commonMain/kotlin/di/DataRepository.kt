@@ -1,35 +1,24 @@
 package di
 
-import api.AppApi
+import data.api.UserApi
+import data.store.UserDataStore
 import kotlinx.coroutines.CoroutineScope
-import store.UserDataStore
+import kotlinx.coroutines.flow.Flow
+import model.User
 
 class DataRepository(
-    private val api: AppApi,
-    private val cartDataStore: UserDataStore,
+    private val api: UserApi,
+    private val userStore: UserDataStore,
     private val scope: CoroutineScope,
 ) {
-//    val cartDetails: Flow<CartDetails>
-//        get() = cartDataStore.cart.mapLatest {
-//            val ids = it.items.map { it.id }
-//            val fruitties = database.userDao().loadMapped(ids)
-//            CartDetails(
-//                items = it.items.mapNotNull {
-//                    fruitties[it.id]?.let { fruittie ->
-//                        CartItemDetails(fruittie, it.count)
-//                    }
-//                },
-//            )
-//        }
+    suspend fun updateUserProfile(user: User) {
+        userStore.update(user)
+    }
 
-//    suspend fun addToCart(fruittie: User) {
-//        cartDataStore.add(fruittie)
-//    }
-//
-//    fun getUser(): Flow<User> {
-//        return cartDataStore.user
-//    }
-//
+    fun getUserProfile(): Flow<User> {
+        return userStore.user
+    }
+
 //    fun getData(): Flow<List<User>> {
 //        scope.launch {
 //            if (database.userDao().count() < 1) {
@@ -43,10 +32,11 @@ class DataRepository(
 //        return database.fruittieDao().getAllAsFlow()
 //    }
 //
-//    suspend fun refreshData(){
-//        val response = api.getData()
+    suspend fun fetchUser(userName:String){
+        val remoteUser = api.getUserBy(userName)
+        userStore.add(remoteUser)
 //        database.fruittieDao().insert(response.feed)
-//    }
+    }
 
 }
 

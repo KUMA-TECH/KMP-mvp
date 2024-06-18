@@ -1,3 +1,5 @@
+package base
+
 import androidx.compose.runtime.Composable
 
 // App 通用 相关声明
